@@ -44,7 +44,7 @@ function prepare(cb) {
       'Startup:',
       '\t-t,  --topic             String, topic for publish',
       '\t-b,  --bot               Number, count for bot',
-      '\t-v,  --version           display the version of Wget and exit.',
+      '\t-v,  --version           display the version',
       '\t-h,  --help              print this help.'
     ].join('\n'));
   }
@@ -65,7 +65,7 @@ function mqttbot(opts) {
     mqttopts.password = account[1];
   }
 
-  this.log('connect to', opts.url);
+  this.log('connect to', opts.url.href);
 
   if (opts.url.protocol === "mqtt:") {
     this.client = mqtt.createClient(port, host, mqttopts);
@@ -76,10 +76,14 @@ function mqttbot(opts) {
     throw new Error("Unknown protocol for mqtt");
   }
 
+  this.client.on('message', this.emit.bind(this, 'message'));
+  this.client.on('connect', this.emit.bind(this, 'connect'));
+  this.client.on('disconnect', this.emit.bind(this, 'disconnect'));
+  this.client.on('close', this.emit.bind(this, 'close'));
+  this.client.on('error', this.emit.bind(this, 'error'));
+
   this.log('subscribe to', this.opts.topic);
   this.client.subscribe(opts.topic);
-
-  this.client.on('message', this.emit.bind(this, 'message'));
 }
 
 util.inherits(mqttbot, EventEmitter);
@@ -130,7 +134,17 @@ prepare(function () {
     bots.push(bot);
   }
 
-  setInterval(function () {
-    sendMessage();
-  }, 2000);
+  bots[0].log('waitting for connection');
+
+  bots[0].on('error', function(err) {
+    bots[0].log('got an error', err);
+  });
+
+  bots[0].on('connect', function() {
+    bots[0].log('has a connection');
+
+    setInterval(function () {
+      sendMessage();
+    }, 2000);
+  });
 });

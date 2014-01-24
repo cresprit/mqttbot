@@ -20,8 +20,7 @@
     "nopt": "~2.1.1",
     "lodash": "~2.4.1",
     "mqtt": "~0.3.7",
-    "mows": "~0.0.2",
-    "websocket-stream": "~0.3.2"
+    "mows": "~0.0.2"
   },
   "peerDependencies": {},
   "devDependencies": {
