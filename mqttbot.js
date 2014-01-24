@@ -11,6 +11,7 @@ var _ = require('lodash');
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var mqtt = require('mqtt');
+var mows = require('mows');
 var Stream = require('stream').Stream;
 var opts = nopt({
   topic: [String],
@@ -64,8 +65,16 @@ function mqttbot(opts) {
     mqttopts.password = account[1];
   }
 
-  this.log('connect to', opts.url.href);
-  this.client = mqtt.createClient(port, host, mqttopts);
+  this.log('connect to', opts.url);
+
+  if (opts.url.protocol === "mqtt:") {
+    this.client = mqtt.createClient(port, host, mqttopts);
+  }
+  else if (opts.url.protocol === "ws:") {
+    this.client = mows.createClient(opts.url.href);
+  } else {
+    throw new Error("Unknown protocol for mqtt");
+  }
 
   this.log('subscribe to', this.opts.topic);
   this.client.subscribe(opts.topic);
