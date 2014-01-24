@@ -1,6 +1,6 @@
 {
   "name": "mqttbot",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "mqtt bot",
   "keywords": [
     "mqtt",
