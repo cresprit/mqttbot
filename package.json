@@ -1,0 +1,45 @@
+{
+  "name": "mqttbot",
+  "version": "0.0.1",
+  "description": "mqtt bot",
+  "keywords": [
+    "mqtt",
+    "mqttbot"
+  ],
+  "homepage": "https://github.com/cresprit/mqttbot",
+  "bugs": "https://github.com/cresprit/mqttbot/issues",
+  "author": "ragingwind@gmail.com",
+  "bin": {
+    "mqttbot": "mqttbot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cresprit/mqttbot.git"
+  },
+  "dependencies": {
+    "nopt": "~2.1.1",
+    "lodash": "~2.4.1",
+    "mqtt": "~0.3.7"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "mockery": "~1.4.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-mocha-test": "~0.8.1"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "preferGlobal": true,
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "files": [
+    "mqttbot.js"
+  ]
+}
