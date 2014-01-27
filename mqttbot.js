@@ -12,10 +12,19 @@ var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var mqtt = require('mqtt');
 var mows = require('mows');
+var readline = require('readline');
 var Stream = require('stream').Stream;
+
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
 var opts = nopt({
   topic: [String],
   bot: [Stream, Number],
+  interval: [Stream, Number],
+  prompt: Boolean,
   help: Boolean,
   version: Boolean
 }, {
@@ -40,10 +49,15 @@ function prepare(cb) {
   if (opts.help || !validated) {
     return console.log([
       pkg.name + ' ' + pkg.version,
-      'Usage: mqttbot [OPTION]... [USERNAME:PASSWORD]@[URL]...\n',
+      'Usage: mqttbot [OPTIONS]... [USERNAME:PASSWORD]@[URL]...\n',
+      'Examples:',
+      '\tmqttbot -b 2 -t test ws://localhost:8080/mqtt',
+      '\tmqttbot -b 10 -t test mqtt://username:passwd@mx.cloudmqtt.com:18629\n',
       'Startup:',
       '\t-t,  --topic             String, topic for publish',
       '\t-b,  --bot               Number, count for bot',
+      '\t-i,  --interval          Number, timer interval (milli) for publish',
+      '\t-p,  --prompt            using the prompt for publish without timer',
       '\t-v,  --version           display the version',
       '\t-h,  --help              print this help.'
     ].join('\n'));
@@ -104,7 +118,9 @@ mqttbot.prototype.stop = function () {
 };
 
 prepare(function () {
+  var interval = opts.interval || 2000;
   var botCount = opts.bot || 0;
+  var recvCount = 0;
   var bots = [];
 
   var randomBotid = function () {
@@ -112,20 +128,32 @@ prepare(function () {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-  var sendMessage = function () {
+  var sendMessage = function (message) {
     var bot = bots[randomBotid()];
-    bot.pub(['`from bot', bot.opts.botid, '` at', Date.now()].join(' '));
+    bot.pub(message || ['`from bot', bot.opts.botid, '` at', Date.now()].join(' '));
+  };
+
+  var showPrompt = function() {
+    rl.question("> ", function(answer) {
+      sendMessage(answer + ' at ' + Date.now());
+    });
   };
 
   var onMessage = function (bot) {
     return function (topic, message) {
-      bot.log('got message', message);
+      bot.log('got message(' + ++recvCount + '/' + botCount + ')', message);
+      if (recvCount === botCount) {
+        recvCount = 0;
+        if (opts.prompt) {
+          showPrompt();
+        }
+      }
     };
   };
 
-  while (botCount--) {
+  for (var i = 0; i < botCount; ++i) {
     var bot = new mqttbot({
-      botid: botCount,
+      botid: i,
       url: opts.url,
       topic: opts.topic
     });
@@ -143,8 +171,10 @@ prepare(function () {
   bots[0].on('connect', function() {
     bots[0].log('has a connection');
 
-    setInterval(function () {
-      sendMessage();
-    }, 2000);
+    if (!opts.prompt) {
+      setInterval(sendMessage, interval);
+    } else {
+      showPrompt();
+    }
   });
 });
