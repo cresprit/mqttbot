@@ -12,13 +12,8 @@ var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var mqtt = require('mqtt');
 var mows = require('mows');
-var readline = require('readline');
+var Readline = require('readline');
 var Stream = require('stream').Stream;
-
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
 
 var opts = nopt({
   topic: [String],
@@ -122,6 +117,7 @@ prepare(function () {
   var botCount = opts.bot || 0;
   var recvCount = 0;
   var bots = [];
+  var readline;
 
   var randomBotid = function () {
     var min = 0, max = opts.bot - 1;
@@ -134,7 +130,7 @@ prepare(function () {
   };
 
   var showPrompt = function() {
-    rl.question("> ", function(answer) {
+    readline.question("> ", function(answer) {
       sendMessage(answer + ' at ' + Date.now());
     });
   };
@@ -169,11 +165,16 @@ prepare(function () {
   });
 
   bots[0].on('connect', function() {
-    bots[0].log('has a connection');
+    bots[0].log('connected to', opts.url.host);
 
     if (!opts.prompt) {
       setInterval(sendMessage, interval);
     } else {
+      readline = Readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+
       showPrompt();
     }
   });
