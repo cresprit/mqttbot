@@ -5,18 +5,15 @@ MQTT bot for broker testing on CLI
 # HOW TO USE
 
 ```
-# Localhost
+# localhost
 
 ~ mqttbot -b 5 -t test mqtt://localhost
 
-# Cloudmqtt
+# CloudMQTT
 
 ~ mqttbot -b 10 -t test mqtt://username:passwd@mx.cloudmqtt.com:18629
 
-# Using websocket
-# WARN: Some of public broker(`m2m.eclipse.org`, `test.mosquitto.org`) 
-# was rejects ws connection from mqttbot with an error 404 or 403. 
-# We've tested with `broker.mqttdashboard.com` on our side it works well.
+# Using WebSocket
 
 ~ mqttbot -b 2 -t test ws://localhost:8080/mqtt
 ~ mqttbot -b 2 -t test ws://broker.mqttdashboard.com:8000/mqtt
@@ -32,7 +29,7 @@ bot:0> connect to mqtt://localhost
 bot:0> subscribe to test
 bot:1> connect to mqtt://localhost
 bot:1> subscribe to test
-bot:0> waitting for connection
+bot:0> waiting for connection
 bot:0> has a connection
 > it's for testing
 bot:0> is sending it's for testing at 1390851918570
@@ -43,12 +40,12 @@ bot:1> got message(2/2) it's for testing at 1390851918570
 
 ## Options
 
-- `-t,  --topic` String, topic for publish
-- `-b,  --bot` Number, count for bot
-- `-i,  --interval` Number, timer interval (milli) for publish
-- `-p,  --prompt` using the prompt for publish without timer
-- `-v,  --version `display the version
-- `-h,  --help `print this help
+- `-t,  --topic [string]` topic to publish on
+- `-b,  --bot [int]` number of bots
+- `-i,  --interval [int]` timer interval in ms between publications
+- `-p,  --prompt` interactive prompt, without timer
+- `-v,  --version` display the version
+- `-h,  --help` print this help
 
 ## License
 

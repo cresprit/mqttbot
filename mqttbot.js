@@ -54,10 +54,10 @@ function prepare(cb) {
       '\tmqttbot -b 2 -t test ws://localhost:8080/mqtt',
       '\tmqttbot -b 10 -t test mqtt://username:passwd@mx.cloudmqtt.com:18629\n',
       'Startup:',
-      '\t-t,  --topic             String, topic for publish',
-      '\t-b,  --bot               Number, count for bot',
-      '\t-i,  --interval          Number, timer interval (milli) for publish',
-      '\t-p,  --prompt            using the prompt for publish without timer',
+      '\t-t,  --topic [string]    topic to publish on',
+      '\t-b,  --bot [int]         number of bots',
+      '\t-i,  --interval [int]    timer interval in ms between publications',
+      '\t-p,  --prompt            interactive prompt, without timer',
       '\t-v,  --version           display the version',
       '\t-h,  --help              print this help.'
     ].join('\n'));
@@ -87,7 +87,7 @@ function mqttbot(opts) {
   else if (opts.url.protocol === "ws:") {
     this.client = mows.createClient(opts.url.href);
   } else {
-    throw new Error("Unknown protocol for mqtt");
+    throw new Error("Unknown protocol for an MQTT broker, expected mqtt or ws URI");
   }
 
   this.client.on('message', this.emit.bind(this, 'message'));
@@ -162,7 +162,7 @@ prepare(function () {
     bots.push(bot);
   }
 
-  bots[0].log('waitting for connection');
+  bots[0].log('waiting for connection');
 
   bots[0].on('error', function(err) {
     bots[0].log('got an error', err);
