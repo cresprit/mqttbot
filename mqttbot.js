@@ -162,7 +162,7 @@ prepare(function () {
     bots.push(bot);
   }
 
-  bots[0].log('waitting for connection');
+  bots[0].log('waiting for connection');
 
   bots[0].on('error', function(err) {
     bots[0].log('got an error', err);
