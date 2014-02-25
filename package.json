@@ -1,6 +1,7 @@
 {
   "name": "mqttbot",
   "version": "0.2.2",
+  "main": "lib/mqttbot.js",
   "description": "mqtt bot",
   "keywords": [
     "mqtt",
@@ -41,6 +42,7 @@
     }
   ],
   "files": [
-    "mqttbot.js"
+    "mqttbot.js",
+    "readme.md"
   ]
 }
