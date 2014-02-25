@@ -17,6 +17,7 @@ MQTT bot for broker testing on CLI
 
 ~ mqttbot -b 2 -t test ws://localhost:8080/mqtt
 ~ mqttbot -b 2 -t test ws://broker.mqttdashboard.com:8000/mqtt
+~ mqttbot -b 2 -t test ws://test@gmail.com:1234@localhost:8000/mqtt
 
 # Timer interval option
 

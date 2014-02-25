@@ -74,13 +74,15 @@ function mqttbot(opts) {
     mqttopts.password = account[1];
   }
 
+  console.log(opts);
+
   this.log('connect to', opts.url.href);
 
   if (opts.url.protocol === "mqtt:") {
     this.client = mqtt.createClient(port, host, mqttopts);
   }
   else if (opts.url.protocol === "ws:") {
-    this.client = mows.createClient(opts.url.href);
+    this.client = mows.createClient('ws://' + host + ':' + port, mqttopts);
   } else {
     throw new Error("Unknown protocol for an MQTT broker, expected mqtt or ws URI");
   }
