@@ -45,6 +45,7 @@ bot:1> got message(2/2) it's for testing at 1390851918570
 - `-b,  --bot [int]` number of bots
 - `-i,  --interval [int]` timer interval in ms between publications
 - `-p,  --prompt` interactive prompt, without timer
+- `-r,  --random [min]-[max]` random number message
 - `-v,  --version` display the version
 - `-h,  --help` print this help
 
