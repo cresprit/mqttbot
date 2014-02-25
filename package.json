@@ -11,7 +11,7 @@
   "bugs": "https://github.com/cresprit/mqttbot/issues",
   "author": "ragingwind@gmail.com",
   "bin": {
-    "mqttbot": "mqttbot.js"
+    "mqttbot": "lib/mqttbot.js"
   },
   "repository": {
     "type": "git",
