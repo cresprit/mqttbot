@@ -42,7 +42,7 @@
     }
   ],
   "files": [
-    "mqttbot.js",
+    "lib/mqttbot.js",
     "readme.md"
   ]
 }
