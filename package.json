@@ -1,6 +1,6 @@
 {
   "name": "mqttbot",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "lib/mqttbot.js",
   "description": "mqtt bot",
   "keywords": [
