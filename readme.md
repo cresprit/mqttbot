@@ -1,7 +1,7 @@
 # mqttbot [![Build Status](https://secure.travis-ci.org/cresprit/mqttbot.png?branch=master)](https://travis-ci.org/cresprit/mqttbot) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 MQTT bot for broker testing on CLI
-
+   
 # HOW TO USE
 
 ```
